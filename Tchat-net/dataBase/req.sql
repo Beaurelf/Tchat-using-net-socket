@@ -1,0 +1,72 @@
+-- SQLite
+PRAGMA foreign_keys = ON;
+
+DROP TABLE IF EXISTS user_group;
+DROP TABLE IF EXISTS user_group_bannish;
+DROP TABLE IF EXISTS user_group_invite;
+DROP TABLE IF EXISTS state;
+DROP TABLE IF EXISTS msg;
+DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS groupe;
+
+
+CREATE TABLE IF NOT EXISTS user (
+    Id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username VARCHAR(40) NOT NULL,
+    password VARCHAR(50) NOT NULL,
+    status VARACHAR(7) DEFAULT 'ONLINE'
+);
+
+CREATE TABLE IF NOT EXISTS groupe (
+    Id INTEGER PRIMARY KEY AUTOINCREMENT,
+    group_name VARCHAR(50) NOT NULL,
+    type VARCHAR(20) DEFAULT 'public',
+    create_at DATETIME
+);
+
+CREATE TABLE  IF NOT EXISTS user_group_bannish (
+    Id INTEGER PRIMARY KEY AUTOINCREMENT,
+    Id_group INTERGER NOT NULL,
+    Id_user INTERGER NOT NULL,
+    FOREIGN KEY (Id_user) REFERENCES user (Id) ON DELETE CASCADE,
+    FOREIGN KEY (Id_group) REFERENCES groupe (Id) ON DELETE CASCADE
+);
+
+CREATE TABLE  IF NOT EXISTS user_group_invite (
+    Id INTEGER PRIMARY KEY AUTOINCREMENT,
+    Id_group INTERGER NOT NULL,
+    Id_user INTERGER NOT NULL,
+    FOREIGN KEY (Id_user) REFERENCES user (Id) ON DELETE CASCADE,
+    FOREIGN KEY (Id_group) REFERENCES groupe (Id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS user_group (
+    Id INTEGER PRIMARY KEY AUTOINCREMENT,
+    Id_group INTERGER NOT NULL,
+    Id_user INTERGER NOT NULL,
+    FOREIGN KEY (Id_user) REFERENCES user (Id) ON DELETE CASCADE,
+    FOREIGN KEY (Id_group) REFERENCES groupe (Id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS state (
+    Id INTEGER PRIMARY KEY AUTOINCREMENT,
+    event VARCHAR(100) NOT NULL,
+    Id_group INTEGER NOT NULL,
+    FOREIGN KEY (Id_group) REFERENCES groupe (Id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS msg (
+    Id INTEGER PRIMARY KEY AUTOINCREMENT,
+    receiver VARCHAR(40),
+    content TEXT,
+    Id_group INTERGER,
+    Id_user INTERGER NOT NULL,
+    FOREIGN KEY (Id_user) REFERENCES user (Id) ON DELETE CASCADE,
+    FOREIGN KEY (Id_group) REFERENCES groupe (Id) ON DELETE CASCADE
+);
+
+/*SELECT u.username FROM user u JOIN user_group ug ON u.Id = ug.Id_user WHERE ug.Id_group = 1;
+SELECT username FROM (groupe g JOIN user_group_bannish i ON g.id = i.Id_group) JOIN user u ON u.id = i.Id_user WHERE i.Id_group = 1;
+INSERT INTO user (username, password) VALUES ('fohom','@ioie');*/
+
+

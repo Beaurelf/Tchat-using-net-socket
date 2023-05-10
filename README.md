@@ -20,4 +20,7 @@ Implémenter les 4 TDs ci-dessous suivant les cas d'études vus en cours.
 - CAS3 : Client ESP32 ou client node.js / serveur ESP32 suivant le protocole JSON over TCP/IP
 - CAS4 : Client et serveur suivant le protocole JSON over Websocket
 
-
+## Auteur
+-Beaurel Fohom Takala 
+- Djoundo Michelle Yvanna
+- Ngome Marvin
